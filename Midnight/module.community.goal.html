@@ -1,0 +1,71 @@
+<div class="card panel panel-default module box-container">
+    <div class="panel-heading">
+        <div class="header" style="margin-top:0px;margin-bottom:0px;">{{ module.header }}</div>
+    </div>
+    <div class="panel-body content" style="width:auto;float:none;">
+        <div class="donation-goal" style="text-align:center;">
+            {% if module.communitygoal.image %}
+                <div class="image borderless">
+                    <img src="{{ module.communitygoal.image }}" style="width:190px; height:165px;" class="tooltip-help" />
+                </div>
+            {% endif %}    
+            <p>
+                {{ module.communitygoal.description|raw }}
+            </p>        
+            <div id="progresscomm" class="progress {% if module.bar.animated %} active {% endif %}">
+                <div class="progress-bar bar" role="progressbar"></div>
+            </div>
+            {% if module.communitygoal.repeatable == 1 %}
+                <p>{{ __("Times Achieved:") }} {{ module.communitygoal.times_achieved }}</p>
+            {% endif %}
+        </div>
+    </div>
+    
+    <script>
+        // progressbar.js@1.0.0 version is used
+        // Docs: http://progressbarjs.readthedocs.org/en/1.0.0/
+        var bar2 = new ProgressBar.Circle(progresscomm, {
+          color: "{% if module.communitygoal.img %}white {% else %}inherit {% endif %}",
+          // This has to be the same size as the maximum width to
+          // prevent clipping
+          strokeWidth: 10,
+          trailWidth: 10,
+          easing: 'easeInOut',
+          duration: 1400,
+          text: {
+            autoStyleContainer: false
+          },
+          from: { color: barcolor, width: 10 },
+          to: { color: barcolor, width: 10 },
+          // Set default step function for all animate calls
+          step: function(state, circle) {
+            circle.path.setAttribute('stroke', state.color);
+            circle.path.setAttribute('stroke-width', state.width);
+            circle.path.setAttribute('stroke-linecap',"round")
+        
+            var value = Math.round({{module.percentage}});
+            if (value === 0) {
+              circle.setText('0%');
+            } else {
+              circle.setText(value + "%");
+            }
+        
+          }
+        });
+        bar2.text.style.fontSize = '2rem';
+        
+        
+        var percentage2; 
+        
+        if({{module.percentage}} != 0 && {{module.percentage}} < 100){
+            percentage2 = {{module.percentage}} / 100;
+        } else if({{module.percentage}} >= 100){
+            percentage2 = 1;
+        } else{
+            percentage2 = 0;
+        }
+        
+        bar2.animate(percentage2);  // Number from 0.0 to 1.0
+    </script>
+</div>
+

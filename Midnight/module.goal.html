@@ -1,0 +1,61 @@
+<div class="card panel panel-default module">
+  <div class="panel-heading">{{ module.header }}</div>
+  <div class="panel-body">
+      <div class="donation-goal">
+          <div id="progress" class="progress">
+              
+          </div>
+      </div>
+  </div>
+</div>
+
+<script>
+  // progressbar.js@1.0.0 version is used
+  // Docs: http://progressbarjs.readthedocs.org/en/1.0.0/
+  var barcolor = getComputedStyle(document.documentElement).getPropertyValue('--primary-color');
+  
+  var bar1 = new ProgressBar.Circle(progress, {
+    color: "inherit",
+    // This has to be the same size as the maximum width to
+    // prevent clipping
+    strokeWidth: 10,
+    trailWidth: 10,
+    easing: 'easeInOut',
+    duration: 1400,
+    text: {
+      autoStyleContainer: false
+    },
+    from: { color: barcolor, width: 10 },
+    to: { color: barcolor, width: 10 },
+    // Set default step function for all animate calls
+    step: function(state, circle) {
+      circle.path.setAttribute('stroke', state.color);
+      circle.path.setAttribute('stroke-width', state.width);
+      circle.path.setAttribute('stroke-linecap',"round")
+  
+      var value = Math.round({{module.percentage}});
+      if (value === 0) {
+        circle.setText('0%');
+      } else {
+        circle.setText(value + "%");
+      }
+  
+    }
+  });
+  bar1.text.style.fontSize = '2rem';
+  
+  
+  var percentage1; 
+  if({{module.percentage}} != 0 && {{module.percentage}} < 100){
+      percentage1 = {{module.percentage}} / 100;
+  } else if({{module.percentage}} >= 100){
+      percentage1 = 1;
+  } else{
+      percentage1 = 0;
+  }
+  
+  
+  bar1.animate(percentage1);  // Number from 0.0 to 1.0
+
+</script>
+

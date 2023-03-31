@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<!--BetterBuycraft theme designed by Kuchy
+Discord: Kuchy#9131
+-->
+<html lang="en">
+  <head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>{{ store.name }} | {{ page.title }}</title>
+    
+    <link rel="shortcut icon" href="{{ store.favicon }}">
+    <link href="/templates/209/css/style.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <script src="https://rawgit.com/kimmobrunfeldt/progressbar.js/1.0.0/dist/progressbar.js"></script>
+
+    
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        
+        _gaq.push(['_setAccount', 'UA-36735942-3']);
+        _gaq.push(['_trackPageview']);
+        
+        {% if store.googleAnalytics %}
+            _gaq.push(['b._setAccount', '{{ store.googleAnalytics }}']);
+            _gaq.push(['b._trackPageview']);
+        {% endif %}
+        
+        (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+    	    
+    	    <script>
+    	    //SET YOUR WEBSITE INFORMATION HERE\\
+    	    
+    	    
+    	    
+    	    //Link Information
+    	    var MainPageLink = "https://google.com"; //Set your Home Page Link here. Leave empty if you don't have a MainPageLink
+    	    var LogoURL = "https://cdn.discordapp.com/attachments/431189810045255690/463112908876939294/cake.png"; //Your Logo URL
+
+    	    //Sale Information
+    	    var SaleActive = true; //Use True or False to set your sale status
+    	    
+    	    var SalePrice = "100"; //Enter your sale percentage WITHOUT % sign
+    	    
+    	    var SaleMSG = "Server Launch Sale! Get it while it's hot!"; //Enter your sale message
+            
+            /*This theme uses FontAwesome for icons. 
+                Go to https://fontawesome.com/icons?d=gallery
+                Search for an icon you want and Click on it
+                Copy the name and paste it below exactly how you see it
+                (NOTE: SOCIAL MEDIA ICONS WILL NOT WORK FOR THIS.)
+            */
+            var SaleIcon = "bullhorn"; //Instructions above
+    	        
+    	    var DefaultMSG = "Welcome to our store"; //Default message if no sale is active
+
+
+            //Animations
+            /*
+            All animations use Animate.css
+            I did not make these animations nor do I claim them as my own.
+
+            How to add an Animation:
+            1 - Visit https://daneden.github.io/animate.css/ to see a list of animations offered.
+            2 - Click on the text box and choose an animation you find pleasing to your eye.
+            3 - Enter the name as shown in the variables below. (This includes capitalization).
+            4 - I'll do the rest after this! :)
+            */
+    	    var LogoAnimation = ""; //Leave empty if you don't want an Animation on the Logo Image
+    	    var LogoAnimationLoop = false; //Do you want the animation to go infinitely?
+
+            var LinkAnimation = ""; //Leave empty if you don't want an Animation on the Header Navigation Links
+
+            var CategoryItemsAnimation = ""; //Leave empty if you don't want an Animation on the Category Items (Only for items with Images displayed)
+    	    
+    	    
+    	    //Server Status Information
+    	    var IP = "us.mineplex.com"; //Change this to your server IP
+    	    
+    	    var PORT = "25565"; //Change this to your server PORT
+    	    
+    </script>
+
+    
+    <style>{{ store.css|raw }}</style>
+
+  </head>
+  <body>
+    <div class="header">
+        <nav class="navbar navbar-default" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+    
+                <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <li class="main-link" id="kd-link"><a id="returnhome"><i class="fa fa-arrow-left"></i>&nbsp;Return to Forums</a></li>
+
+                        <ul class="pull-right nav-side-right" style="list-style-type:none;">
+                        {% if basket.username %} 
+                            <li class="dropdown user">
+                                <a href="#" id="kd-link" class="dropdown-toggle" data-toggle="dropdown"><img class="user-img" src="https://minotar.net/avatar/{{ basket.ign }}/20">&nbsp; {{ basket.ign }} <i class="fa fa-caret-down"></i></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="/checkout/logout">Logout</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown cart">
+                                {% if basket.packages|length > 0 %}
+                                    <a href="#" id="kd-link" class="dropdown-toggle" data-toggle="dropdown">
+                                        <i class="fa fa-shopping-cart"></i> In Cart ({{ basket.packages|length }}) <span class="fa fa-caret-down"></span>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        {% for package in basket.packages %}
+                                            <li class="item">
+                                                <div class="name">{{ package.name[:25] }}</div>
+                                                <div class="price">Price: {{ package.price|money }} <small>{{ basket.currency }}</small></div>
+                                                <div class="remove"><a href="/checkout/packages/remove/{{ package.id }}"><span class="fa fa-times"></span></a></div>
+                                            </li>
+                                        {% endfor %}
+                                        <li class="checkout">
+                                            <div class="total"><b>{{ lang("basket.total") }}:</b> {{ basket.price|money }} <small>{{ basket.currency }}</small></div>
+                                            <div class="button"><a href="/checkout/basket" class="btn btn-success">Checkout</a></div>
+                                        </li>
+                                    </ul>
+                                {% else %}
+                                    <a href="#" id="kd-link" ><i class="fa fa-shopping-cart"></i> In Cart ({{ basket.packages|length }})</a>
+                                {% endif %}
+                            </li>
+                            <li class="dropdown currency">
+                                <a href="#" id="kd-link" class="dropdown-toggle" data-toggle="dropdown">
+                                    <i class="fa fa-dollar-sign"></i> {{ basket.currency }} <span class="fa fa-caret-down"></span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                {% for currency in store.currencies %}
+                                    {% if currency.code in [store.currency, "AUD", "BRL", "CAD", "DKK", "EUR", "NOK", "NZD", "GBP", "SEK", "USD", "PLN"] %}
+                                        <li {% if basket.currency == currency.code %}class="active"{% endif %}>
+                                            <a href="?currency={{ currency.code }}">{{ currency.code }}</a>
+                                        </li>
+                                    {% endif %}
+                                {% endfor %}
+                                </ul>
+                            </li>
+                        {% else %}
+                            <li class="no-login"><a id="kd-link" href="#" disabled="disabled">Not Logged In</a></li>
+                        {% endif %}
+                        </ul>
+                    
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div id="logoBlock">
+            <div class="container">
+                <div id="logo">
+                    <a href="/">
+                        <span></span>
+                        <img id="img-logo" alt="{{ store.name }}">
+                    </a>
+                </div>
+		    </div>
+	    </div>
+	    <div class="serverinfo-container">
+    		<div class="container">
+    			<div class="serverinfo-message">
+    				<p class="si-main"><i class="fas fa-bullhorn"></i>&nbsp;Join 
+    					<span class="player-count" style="padding: 5px; background: rgba(255, 255, 255, 0.2); color: white; font-weight: bold;">0</span> 
+    					other players on 
+    					<span id="ip-text" class="ip-text" data-tooltip="Click to Copy" data-placement="top"  style="padding: 5px; background: rgba(255, 255, 255, 0.2); color: white; font-weight: bold;">
+    					
+    					
+    					</span>&nbsp;<i class="fa fa-clipboard"></i>
+    				</p>
+    			</div>
+    		</div>
+    	</div>
+    </div> 
+      
+    
+    <div class="container">
+
+        <div class="notification">
+            {% if page.message.display %}
+                <div class="alert alert-{{ page.message.type}} alert-dismissable">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    {{ page.message.text }}
+                </div>
+            {% endif %}  
+        </div>
+        <div class="main-content">
+            <div class="cat-special-msg">
+                
+                <div id="activesale" class="hidden">
+                    <h2>
+                        <i id="salemessageicon" class="fas "></i>
+                        <span id="salenumber"></span>% Off Sale <span style="background: rgb(21, 152, 6); padding: 2px 8px;">ACTIVE</span> <br />
+                    </h2>
+                    <div class="msg"><p><span style="font-size: 15px; color: #d4d4d4; font-weight: normal; text-transform: none;" id="salemsg"></span></p></div>
+                </div>
+                <div id="inactivesale" class="hidden">
+                    <h2 id="storemsg"></h2>
+                </div>
+            </div>
+            <div class="cat-navigation">
+                <ul>
+                    <li class="{% if page.category == "index" %}active{% endif %} cat-link"><a href="/" id="kd-link">Home Page</a></li>
+                    {% for category in store.categories %}
+                        {% if category.subcategories|length > 0 %}
+                            <li class="cat-link dropdown {% if category.active %}active{% endif %}">
+                                <a href="#" id="kd-link" class="dropdown-toggle" data-toggle="dropdown">{{ category.name }} <i class="fa fa-caret-down"></i></a>
+                                <ul class="dropdown-menu">
+                                    {% for subcategory in category.subcategories %}
+                                        <li><a href="/category/{{ subcategory.id }}" id="kd-link"><i class="fa fa-angle-double-right" aria-hidden="true"></i>&nbsp; {{ subcategory.name }}</a></li>
+                                    {% endfor %}
+                                </ul>
+                            </li>
+                        {% else %}
+                            <li class="{% if category.active %}active{% endif %} cat-link"><a href="/category/{{ category.id }}" id="kd-link">{{ category.name }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+                    {% for page in store.pages %}
+                        <li class="cat-link {% if page.active %}active{% endif %}"><a href="/{{ page.slug }}" id="kd-link">{{ page.title }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="cat-content">
+                {% block content %}{% endblock %}
+            </div>
+        </div>
+        
+        
+        <div class="cat-modules">
+            {{ modules|raw }}
+        </div>      
+
+      {% if store.plan == "1" %}
+        <div class="advertisement">
+            <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+            <ins class="adsbygoogle" style="display:inline-block;width:728px;height:90px;" data-ad-client="ca-pub-3001114496716191" data-ad-slot="6387062141"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
+      {% endif %}
+    </div>
+
+<footer>
+    <div id="footer-top">
+    	
+    </div>
+    <div class="footer-bottom">
+    	<div class="container">
+                <div id="copyright">
+                    {% if store.branding or store.plan != "3" %}
+                        <div class="branding"> 
+                            <!-- Do not remove the Buycraft branding if you are not on the Ultimate Plan. Your account will be deleted. -->
+                            Powered by <a href="http://buycraft.net" target="_blank">Buycraft.net</a>
+                        </div>
+                    {% endif %}
+                    <!-- Be nice and don't remove this. This a free theme. Have the decency to support my work -->
+                    <p>Designed By: Kuchy | Discord: <span style="padding: 5px; background: rgba(0,0,0,.2); color: white; font-weight: bold;">Kuchy#9131</span></p>
+                </div>
+            <span class="helper"></span>
+        </div>
+    </div>
+</footer>
+
+    
+    
+    
+    <div class="modal fade" id="popup-modal" tabindex="-1" role="dialog" style="overflow:auto;"></div>
+    
+    
+    
+    {% if page.category == "checkout" %}
+      <script src="https://js.stripe.com/v2/"></script>
+    {% endif %}
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>  
+    <script src="/templates/209/js/bootstrap.min.js"></script>
+    <script src="/templates/209/js/skin.min.js"></script>
+    <script src="/templates/209/js/site.js"></script>
+     <script>
+        jQuery(function(){
+            var countdowns = $(".countdown-to");
+            countdowns.each(function(){
+               setInterval(function(ele) {
+                   timeLeft = parseInt(ele.attr("data-countdown"));
+                   if (timeLeft == 0) {
+                       ele.html("Time Expired!");
+                   } else {
+                   timeLeft--;
+                   ele.attr("data-countdown", timeLeft);
+                  var days = Math.floor(timeLeft / (60 * 60 * 24));
+                  var hours = Math.floor((timeLeft % (60 * 60 * 24)) / (60 * 60));
+                  var minutes = Math.floor((timeLeft % (60 * 60)) / (60));
+              var seconds = Math.floor((timeLeft % 60));
+                  ele.html(days + "d " + hours + "h " + minutes + "m " + seconds + "s");
+                   }
+               }, 1000, jQuery(this));
+            });
+        });
+
+        //247881 | d3c3f1761fa2bd00234430ae2eaecb79 | b4bbd6bcedfc06f6db8febf457659b46 | 
+         
+        $(document).ready(function() {
+            
+            servererror = false;
+    	    
+    	    if(PORT != "25565"){
+    	        serverIP = IP+":"+PORT;
+    	    } else {
+    	        serverIP = IP;
+    	    }
+    	    
+    	    $.getJSON("https://api.mcsrvstat.us/2/"+serverIP, function(status){
+	
+                if(status.online){
+            		document.querySelector('.player-count').innerHTML = status.players.online;
+                }else {
+                    servererror = true;
+                	document.querySelector('.si-main').innerHTML = '<span class="error">Server Offline</span>',
+    	            document.querySelector('.serverinfo-container').className += " si-error"
+                }
+            
+            });
+
+            document.getElementById("img-logo").src = LogoURL;
+
+            if(LogoAnimation != "" && !LogoAnimationLoop){
+                document.getElementById("img-logo").classList.add("animated",LogoAnimation);
+            }else if(LogoAnimation != "" && LogoAnimationLoop){
+                document.getElementById("img-logo").classList.add("animated",LogoAnimation,"infinite");
+            }
+            if(LinkAnimation != ""){
+                document.getElementById("kd-link").classList.add("animated",LinkAnimation);
+            }
+            
+            if(document.getElementById("categoryPackage")){
+                if(CategoryItemsAnimation != ""){
+                    document.getElementById("categoryPackage").classList.add("animated",CategoryItemsAnimation);
+                }
+            }
+            
+            if(MainPageLink != ""){
+                document.getElementById("returnhome").href = MainPageLink;
+            }else{
+                document.getElementById("returnhome").classList.add("hidden");
+            }
+
+            if(SaleIcon != ""){
+                document.getElementById("salemessageicon").classList.add("fa-" + SaleIcon);
+            }
+
+            if(LogoAnimation != ""){
+                document.getElementById("logo").classList.add(LogoAnimation);
+            }
+            if(LinkAnimation != ""){
+                document.getElementById("kd-link").classList.add(LinkAnimation);
+            }
+
+            if(!servererror){
+                document.getElementById("ip-text").setAttribute("data-clipboard-text",serverIP);
+                document.getElementById("ip-text").innerHTML=serverIP;
+            }
+
+
+            if(SaleActive){
+                document.getElementById("activesale").classList.remove("hidden");
+                document.getElementById("inactivesale").classList.add("hidden");
+                $(".cat-special-msg").addClass("saleActive");
+                document.getElementById("salenumber").innerHTML=SalePrice;
+                document.getElementById("salemsg").innerHTML=SaleMSG;
+            }else{
+                document.getElementById("activesale").classList.add("hidden");
+                document.getElementById("inactivesale").classList.remove("hidden");
+                document.getElementById("storemsg").innerHTML=DefaultMSG;
+            }
+            
+            
+            $("#hidesb").click(function(){
+                $(".cat-sidebar").removeClass("opened").addClass("closed");
+                $(".cat-content").removeClass("shrink");
+                $("#opensb").removeClass("hidden");
+            });
+            
+            $("#opensb").click(function(){
+                $(".cat-sidebar").addClass("opened").removeClass("closed");
+                $(".cat-content").addClass("shrink");
+                $("#opensb").addClass("hidden");
+            });
+            
+        });
+        
+        
+        $('.dropdown').on('show.bs.dropdown', function() {
+            $(this).find('.dropdown-menu').first().stop(true, true).slideDown("200");
+        });
+        
+        $('.dropdown').on('hide.bs.dropdown', function() {
+            $(this).find('.dropdown-menu').first().stop(true, true).slideUp("200");
+        });
+        
+        
+        
+        
+        
+        
+        
+        
+        
+            
+        var clipboard = new ClipboardJS('.ip-text');
+        
+        $( ".ip-text" ).mouseenter(function() {
+            
+          }).mouseleave(function() {
+        
+          }).click(function() {
+            $(".ip-text").text('copied');
+            setTimeout(ipCopiedDone, 3000);
+          });
+          
+          function ipCopiedDone(){
+                $(".ip-text").text(serverIP);
+          }
+
+
+          //1672854249 | %%__USER__%%  
+    </script>
+  </body>
+</html>
